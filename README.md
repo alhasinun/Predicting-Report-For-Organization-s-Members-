@@ -6,3 +6,5 @@ In this repository, i still use Python just like before. But, unlike before, thi
 
 Here are the steps to do that.
 
+## Data Preparation
+
