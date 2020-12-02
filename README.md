@@ -19,9 +19,11 @@ I am using Python with Jupyter Notebook, so not all of the libraries are initial
   ```python
      train_raw=pd.read_csv(r'D:\Program_Files\python\train_report.csv')
   ```
-I am using reports data from previous batch (2015-2017) to build a classification model. The data contains 9 columns, with the "Result" column describes the progress result of each member (very bad, bad, average, good, very good). Here is what the data looks like (The "Name" column is censored because it contains real name of a person).
+We are using reports data from previous batch (2015-2017) to build a classification model. The data contains 9 columns, with the "Result" column describes the progress result of each member (very bad, bad, average, good, very good). Here is what the data looks like (The "Name" column is censored because it contains real name of a person).
 
-### ![trainraw](https://user-images.githubusercontent.com/72293844/100861441-6785fa00-34c4-11eb-8cf3-e568b14486de.jpg)
+   <p align="center">
+      <img src = "https://user-images.githubusercontent.com/72293844/100861441-6785fa00-34c4-11eb-8cf3-e568b14486de.jpg" />
+   </p>!
 
 "NIM" and "Name" columns can be discarded because they are not needed in the process. The only needed parameters for the model are **Participation**, **Professional Development**, **Discipline**, **Contribution**, **Critical Thinking**, and **Score**. **Result** will be used as the target label to fit and train the model.
 
@@ -33,3 +35,17 @@ As it can be seen, here is the needed dataframe
    <p align="center">
       <img src = "https://user-images.githubusercontent.com/72293844/100863088-9e5d0f80-34c6-11eb-96f5-32c5783f404d.jpg" />
    </p>
+
+We want the **Result** column to be numerics, because the model will not be train if it is not numerics, so we change the string to numeric (integer).
+
+  ```python
+     clean_result = {'Result': {'Very Bad':0, 'Bad':1, 'Average':2, 'Good':3, 'Very Good':4}}
+     train.replace(clean_result, inplace=True)
+  ```
+After all of the values are numerics, then we extract just the values of the column, because we don't need the column head. We extract value of **Result** to variable "y" (Target variable), and then extract the rest to variable "X" (Trained Variable)
+
+  ```python
+     X=train.drop('Result', axis=1).values
+     y=train['Result'].values
+  ```
+  
