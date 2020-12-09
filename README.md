@@ -42,10 +42,22 @@ We want the **Result** column to be numerics, because the model will not be trai
      clean_result = {'Result': {'Very Bad':0, 'Bad':1, 'Average':2, 'Good':3, 'Very Good':4}}
      train.replace(clean_result, inplace=True)
   ```
-After all of the values are numerics, then we extract just the values of the column, because we don't need the column head. We extract value of **Result** to variable "y" (Target variable), and then extract the rest to variable "X" (Trained Variable)
+After all of the values are numerics, then we extract just the values of the column, because we don't need the column head. We extract value of **Result** to variable "y" (Target variable), and then extract the rest to variable "X" (Predictors Variable)
 
   ```python
      X=train.drop('Result', axis=1).values
      y=train['Result'].values
   ```
-  
+The last step in data preparation is to split the data into train and test data. Data splitting is done to separate data when makin the model; train data is for training the model, meanwhile test data is for testing the model to know the model accuracy when facing future unseen data, so we will be sure that the model is the right choice to use when predicting the case.
+
+We are doing it first by importing `train_test_split` library from `scikit learn`
+   ```python
+      from sklearn.model_selection import train_test_split
+   ```
+
+Then, we split each variables (X as predictors, and y as target) into train and test data. So, there will be total of 4 data in the end (X train, X test, y train, and y test). We set the test_size to 0.2 meaning that 20% of the original data will be split into test data, and 80% into train data.
+   ```python
+      X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state=42, stratify=y)
+   ```
+
+## Data Modelling
