@@ -61,3 +61,23 @@ Then, we split each variables (X as predictors, and y as target) into train and 
    ```
 
 ## Data Modelling
+It's time to do the model prediction. Because there is already a labeled variable, it means that we know the 'target'. By this means, it is a classification problem, because we make a model based on predictors-target variable matching. The model was created using KNN Classifier. The needed argument for KNN is the number of the neighbors `k`. The optimum value for `k` is dependant on the predictors, and target variable. It is unknown to us, and we have to manually try each value to get the optimum value. Luckily, in Python there is a library that can get the optimal value of the parameter, which in this case is k. It is called hyperparameter tuning, and we can use a library called `GridSearchCV` to get the optimum parameter value.
+   ```python
+      from sklearn.neighbors import KNeighborsClassifier
+      from sklearn.model_selection import GridSearchCV
+
+      params={'n_neighbors': np.arange(1,20)}
+      knn_class = KNeighborsClassifier()
+   ```
+
+Here, we instantiate the range where we want to look for the `k` parameter value, which is from 1 to 20. Then we run the GridSearchCV by passing the `knn_class` (classifier), `params` (parameter), and `cv` (cross folds value). And we fit the GridSearchCV to the training data, `X_Train` and `y_train`.
+   ```python
+      knn_cv = GridSearchCV(knn_class, params, cv=5)
+      knn_cv.fit(X_train, y_train)
+      print(knn_cv.best_params_)
+      print(knn_cv.best_score_)
+   ```
+By printing best_params_ and best_score_ we can get the most optimum value of the parameters and its accuracy when applied to the model. From the command above, we get the best value for `k` parameter is 18, and its accuracy is 94%.
+   <p align="center">
+      <img src = "https://user-images.githubusercontent.com/72293844/101736544-2d38e000-3af6-11eb-9858-2beae6e70e25.jpg" />
+   </p>
